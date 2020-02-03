@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const path = require('path');
+var hbs = require("express-handlebars");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
@@ -9,8 +10,17 @@ const http = require('http');
 const port = process.env.PORT;
 
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.engine(
+  "hbs",
+  hbs({
+    extname: "hbs",
+    defaultLayout: "layout",
+    layoutsDir: __dirname + "/views/layouts/"
+  })
+);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "hbs");
+
 app.set('port', port);
 
 app.use(logger('dev'));
